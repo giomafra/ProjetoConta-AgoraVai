@@ -27,5 +27,11 @@ public class UsuarioController {
         return dao.excluirUsuario(nomeUsuarioParaExcluir, adminNome, adminSenha);
     }
 
+    public boolean atualizarUsuario(String nomeAntigo, String senhaAntiga, UsuarioModel novoUsuario) {
+        UsuarioDAO dao = new UsuarioDAO();
+        return dao.atualizarUsuario(nomeAntigo, senhaAntiga, novoUsuario);
+    }
+
+
 
 }

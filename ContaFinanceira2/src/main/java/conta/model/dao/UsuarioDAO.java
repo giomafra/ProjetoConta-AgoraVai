@@ -148,5 +148,41 @@ public class UsuarioDAO {
         return false;
     }
 
+    public boolean atualizarUsuario(String nomeAntigo, String senhaAntiga, UsuarioModel novoUsuario) {
+        String buscarUsuario = "SELECT id FROM usuario WHERE nome = ? AND senha = ?";
+        String atualizarUsuario = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id = ?";
+
+        try (Connection conn = ConexaoBD.getInstance().getConnection();
+             PreparedStatement stmtBusca = conn.prepareStatement(buscarUsuario)) {
+
+            stmtBusca.setString(1, nomeAntigo);
+            stmtBusca.setString(2, senhaAntiga);
+            ResultSet rs = stmtBusca.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+
+                try (PreparedStatement stmtAtualizar = conn.prepareStatement(atualizarUsuario)) {
+                    stmtAtualizar.setString(1, novoUsuario.getNome());
+                    stmtAtualizar.setString(2, novoUsuario.getEmail());
+                    stmtAtualizar.setString(3, novoUsuario.getSenha());
+                    stmtAtualizar.setInt(4, id);
+
+                    int linhas = stmtAtualizar.executeUpdate();
+                    return linhas > 0;
+                }
+
+            } else {
+                System.out.println("Usuário não encontrado ou senha incorreta.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 
 }

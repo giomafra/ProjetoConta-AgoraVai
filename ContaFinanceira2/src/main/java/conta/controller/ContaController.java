@@ -41,4 +41,16 @@ public class ContaController {
     public List<ContaModel> listarContasPorUsuario(String nome, String senha) {
         return contaDAO.listarContasPorUsuario(nome, senha);
     }
+
+    public boolean excluirConta(String nomeUsuario, String senha) {
+        ContaDAO dao = new ContaDAO();
+        return dao.excluirContaPorUsuario(nomeUsuario, senha);
+    }
+
+    public boolean atualizarConta(String nomeUsuario, String senha, ContaModel novaConta) {
+        ContaDAO dao = new ContaDAO();
+        return dao.atualizarConta(nomeUsuario, senha, novaConta);
+    }
+
+
 }

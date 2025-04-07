@@ -13,6 +13,8 @@ import conta.model.dao.ContaDAO;
 import conta.model.dao.TransacaoDAO;
 import conta.model.dao.UsuarioDAO;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,7 +52,7 @@ public class MenuView {
                     excluir();
                     break;
                 case 4:
-//                    atualizar();
+                    atualizar();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -297,13 +299,13 @@ public class MenuView {
                 excluirUsuario();
                 break;
             case 2:
-//                excluirConta();
+                excluirConta();
                 break;
             case 3:
-//                excluirCategoria();
+                excluirCategoria();
                 break;
             case 4:
-//                excluirTransacao();
+                excluirTransacao();
                 break;
             default:
                 System.out.println("Opção inválida!");
@@ -327,12 +329,207 @@ public class MenuView {
             System.out.println("Não foi possível excluir o usuário.");
         }
     }
+    private void excluirConta() {
+        System.out.print("Digite o nome do usuário: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Digite a senha do usuário: ");
+        String senha = scanner.nextLine();
+
+        boolean sucesso = contaController.excluirConta(nome, senha);
+        if (sucesso) {
+            System.out.println("Conta excluída com sucesso.");
+        } else {
+            System.out.println("Erro ao excluir a conta.");
+        }
+    }
 
 
+    private void excluirCategoria() {
+        System.out.print("Digite o nome do usuário: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Digite a senha: ");
+        String senha = scanner.nextLine();
+
+        boolean sucesso = categoriaController.excluirCategoriasDoUsuario(nome, senha);
+        if (sucesso) {
+            System.out.println("Categorias excluídas com sucesso.");
+        } else {
+            System.out.println("Erro ao excluir categorias.");
+        }
+    }
+
+    private void excluirTransacao() {
+        System.out.print("Digite o nome do usuário: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Digite a senha do usuário: ");
+        String senha = scanner.nextLine();
+
+        boolean sucesso = transacaoController.excluirTransacoes(nome, senha);
+        if (sucesso) {
+            System.out.println("Transações excluídas com sucesso.");
+        } else {
+            System.out.println("Erro ao excluir transações.");
+        }
+    }
+    private void atualizar() {
+        System.out.println("\nEscolha o que deseja cadastrar:");
+        System.out.println("1. Usuário");
+        System.out.println("2. Conta");
+        System.out.println("3. Categoria");
+        System.out.println("4. Transação");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (escolha) {
+            case 1:
+                atualizarUsuario();
+                break;
+            case 2:
+                atualizarConta();
+                break;
+            case 3:
+                atualizarCategoria();
+                break;
+            case 4:
+                atualizarTransacao();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+
+    private void atualizarUsuario() {
+        System.out.print("Digite o nome atual do usuário: ");
+        String nomeAntigo = scanner.nextLine();
+
+        System.out.print("Digite a senha atual do usuário: ");
+        String senhaAntiga = scanner.nextLine();
+
+        System.out.print("Digite o novo nome: ");
+        String novoNome = scanner.nextLine();
+
+        System.out.print("Digite o novo email: ");
+        String novoEmail = scanner.nextLine();
+
+        System.out.print("Digite a nova senha: ");
+        String novaSenha = scanner.nextLine();
+
+        UsuarioModel novoUsuario = new UsuarioModel(novoNome, novoEmail, novaSenha);
+
+        boolean atualizado = usuarioController.atualizarUsuario(nomeAntigo, senhaAntiga, novoUsuario);
+        if (atualizado) {
+            System.out.println("Usuário atualizado com sucesso!");
+        } else {
+            System.out.println("Erro ao atualizar usuário. Verifique nome e senha.");
+        }
+    }
+
+    private void atualizarConta() {
+        System.out.print("Digite seu nome de usuário: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Digite sua senha: ");
+        String senha = scanner.nextLine();
+
+        System.out.print("Novo tipo de conta (corrente ou poupanca): ");
+        String tipoConta = scanner.nextLine();
+
+        System.out.print("Novo nome do banco: ");
+        String nomeBanco = scanner.nextLine();
+
+        System.out.print("Novo número da conta: ");
+        int numeroConta = scanner.nextInt();
+
+        System.out.print("Novo saldo inicial: ");
+        double saldoInicial = scanner.nextDouble();
+        scanner.nextLine();
+
+        ContaModel novaConta = new ContaModel(tipoConta, nomeBanco, numeroConta, saldoInicial);
+        boolean atualizada = contaController.atualizarConta(nome, senha, novaConta);
+
+        if (atualizada) {
+            System.out.println("Conta atualizada com sucesso!");
+        } else {
+            System.out.println("Erro ao atualizar a conta. Verifique os dados.");
+        }
+    }
 
 
+    private void atualizarCategoria() {
+        System.out.print("Digite seu nome de usuário: ");
+        String nome = scanner.nextLine();
 
+        System.out.print("Digite sua senha: ");
+        String senha = scanner.nextLine();
+
+        System.out.print("Digite o tipo da categoria que deseja atualizar: ");
+        String tipoAtual = scanner.nextLine();
+
+        System.out.print("Digite o novo tipo para a categoria: ");
+        String novoTipo = scanner.nextLine();
+
+        boolean atualizada = categoriaController.atualizarCategoria(nome, senha, tipoAtual, novoTipo);
+
+        if (atualizada) {
+            System.out.println("Categoria atualizada com sucesso!");
+        } else {
+            System.out.println("Erro ao atualizar categoria. Verifique os dados.");
+        }
+    }
+
+    private void atualizarTransacao() {
+        System.out.print("Digite seu nome de usuário: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Digite sua senha: ");
+        String senha = scanner.nextLine();
+
+        System.out.print("Digite o ID da transação que deseja atualizar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Novo valor: ");
+        double valor = scanner.nextDouble();
+        scanner.nextLine();
+
+        System.out.print("Novo tipo (receita ou despesa): ");
+        String tipo = scanner.nextLine();
+
+        System.out.print("Nova data e hora (formato: yyyy-MM-dd HH:mm:ss): ");
+        String dataHoraStr = scanner.nextLine();
+        LocalDateTime dataHora = LocalDateTime.parse(dataHoraStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        System.out.print("Tipo da nova categoria: ");
+        String tipoCategoria = scanner.nextLine();
+
+        // Remova tipoCategoria do construtor
+        TransacaoModel nova = new TransacaoModel(valor, tipo, dataHora);
+
+        // Passe tipoCategoria separadamente para o controller
+        boolean atualizado = transacaoController.atualizarTransacao(id, nome, senha, nova, tipoCategoria);
+
+        if (atualizado) {
+            System.out.println("Transação atualizada com sucesso!");
+        } else {
+            System.out.println("Erro ao atualizar a transação.");
+        }
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 

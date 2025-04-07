@@ -27,4 +27,16 @@ public class CategoriaController {
     public List<CategoriaModel> listarCategoriasPorUsuario(String nome, String senha) {
         return categoriaDAO.listarCategoriasPorUsuario(nome, senha);
     }
+
+    public boolean excluirCategoriasDoUsuario(String nomeUsuario, String senha) {
+        CategoriaDAO dao = new CategoriaDAO();
+        return dao.excluirCategoriasPorUsuario(nomeUsuario, senha);
+    }
+
+    public boolean atualizarCategoria(String nomeUsuario, String senha, String tipoCategoriaAtual, String novoTipoCategoria) {
+        CategoriaDAO dao = new CategoriaDAO();
+        return dao.atualizarCategoria(nomeUsuario, senha, tipoCategoriaAtual, novoTipoCategoria);
+    }
+
+
 }

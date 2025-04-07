@@ -20,6 +20,13 @@ public class TransacaoModel {
         this.categoriaId = categoriaId;
     }
 
+    public TransacaoModel(double valor, String tipoTransacao, LocalDateTime dataHoraTransacao) {
+        this.valor = valor;
+        this.tipoTransacao = tipoTransacao;
+        this.dataHoraTransacao = dataHoraTransacao;
+    }
+
+
     public double getValor() {
         return valor;
     }

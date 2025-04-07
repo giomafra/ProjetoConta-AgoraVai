@@ -77,4 +77,17 @@ public class TransacaoController {
         return transacaoDAO.listarTransacoesPorUsuario(nome, senha);
     }
 
+    public boolean excluirTransacoes(String nomeUsuario, String senha) {
+        TransacaoDAO dao = new TransacaoDAO();
+        return dao.excluirTransacoesPorUsuario(nomeUsuario, senha);
+    }
+
+    public boolean atualizarTransacao(int id, String nomeUsuario, String senha, TransacaoModel novaTransacao, String tipoCategoria) {
+        TransacaoDAO dao = new TransacaoDAO();
+        return dao.atualizarTransacao(id, nomeUsuario, senha, novaTransacao, tipoCategoria);
+    }
+
+
+
+
 }
