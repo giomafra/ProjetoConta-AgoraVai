@@ -2,6 +2,7 @@ package conta.view;
 
 import conta.controller.CategoriaController;
 import conta.controller.ContaController;
+import conta.controller.TransacaoController;
 import conta.controller.UsuarioController;
 
 import java.util.Scanner;
@@ -11,7 +12,7 @@ public class MenuView {
     private UsuarioController usuarioController = new UsuarioController();
     private ContaController contaController = new ContaController();
     private CategoriaController categoriaController = new CategoriaController();
-
+    private TransacaoController transacaoController = new TransacaoController();
 
 
 
@@ -71,7 +72,7 @@ public class MenuView {
                 cadastrarCategoria();
                 break;
             case 4:
-//                cadastrarTransacao();
+                cadastrarTransacao();
                 break;
             default:
                 System.out.println("Opção inválida!");
@@ -132,6 +133,36 @@ public class MenuView {
         categoriaController.cadastrarCategoria(tipoCategoria, nome, senha);
     }
 
+    private void cadastrarTransacao() {
+        System.out.println("\nCadastro de Transação");
+
+        System.out.print("Valor da Transação: ");
+        double valor = Double.parseDouble(scanner.nextLine());
+
+        System.out.print("Tipo de Transação (receita/despesa): ");
+        String tipoTransacao = scanner.nextLine();
+
+        System.out.print("Número da Conta: ");
+        int numeroConta = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Tipo da Categoria: ");
+        String tipoCategoria = scanner.nextLine();
+
+        System.out.print("Nome do Usuário: ");
+        String nomeUsuario = scanner.nextLine();
+
+        System.out.print("Senha do Usuário: ");
+        String senha = scanner.nextLine();
+
+        transacaoController.cadastrarTransacao(
+                valor,
+                tipoTransacao,
+                numeroConta,
+                tipoCategoria,
+                nomeUsuario,
+                senha
+        );
+    }
 
 }
 

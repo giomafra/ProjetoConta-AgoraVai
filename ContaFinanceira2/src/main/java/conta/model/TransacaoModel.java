@@ -3,21 +3,27 @@ package conta.model;
 import java.time.LocalDateTime;
 
 public class TransacaoModel {
-    private Double valor;
-    private String tipoTransacao;
+    private double valor;
+    private String tipoTransacao; // "receita" ou "despesa"
     private LocalDateTime dataHoraTransacao;
+    private int usuarioId;
+    private int contaId;
+    private int categoriaId;
 
-    public TransacaoModel(Double valor, String tipoTransacao, LocalDateTime dataHoraTransacao) {
+    public TransacaoModel(double valor, String tipoTransacao, LocalDateTime dataHoraTransacao, int usuarioId, int contaId, int categoriaId) {
         this.valor = valor;
         this.tipoTransacao = tipoTransacao;
         this.dataHoraTransacao = dataHoraTransacao;
+        this.usuarioId = usuarioId;
+        this.contaId = contaId;
+        this.categoriaId = categoriaId;
     }
 
-    public Double getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
@@ -37,12 +43,39 @@ public class TransacaoModel {
         this.dataHoraTransacao = dataHoraTransacao;
     }
 
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public int getContaId() {
+        return contaId;
+    }
+
+    public void setContaId(int contaId) {
+        this.contaId = contaId;
+    }
+
+    public int getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(int categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
     @Override
     public String toString() {
         return "TransacaoModel{" +
                 "valor=" + valor +
                 ", tipoTransacao='" + tipoTransacao + '\'' +
                 ", dataHoraTransacao=" + dataHoraTransacao +
+                ", usuarioId=" + usuarioId +
+                ", contaId=" + contaId +
+                ", categoriaId=" + categoriaId +
                 '}';
     }
 }
