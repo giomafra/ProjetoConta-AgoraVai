@@ -1,0 +1,51 @@
+DROP DATABASE ContaFinanceira;
+CREATE DATABASE ContaFinanceira;
+USE ContaFinanceira;
+
+CREATE TABLE usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(100) NOT NULL,
+	conta_id INT,
+    FOREIGN KEY (conta_id) REFERENCES conta(id)
+);
+-- Tabela Conta
+CREATE TABLE conta (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipoConta VARCHAR(50) NOT NULL,
+    nomeDoBanco VARCHAR(100) NOT NULL,
+    numeroConta INT NOT NULL,
+    saldoInicial DOUBLE NOT NULL
+);
+
+
+
+CREATE TABLE categoria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipoCategoria VARCHAR(100) NOT NULL,
+    usuario_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);
+
+
+CREATE TABLE transacao (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    valor DOUBLE NOT NULL,
+    tipoTransacao ENUM('receita', 'despesa') NOT NULL,
+    dataHoraTransacao DATETIME NOT NULL,
+    usuario_id INT NOT NULL,
+    conta_id INT NOT NULL,
+    categoria_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+    FOREIGN KEY (conta_id) REFERENCES conta(id),
+    FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+);
+
+
+
+-- Consultas de verificação
+SELECT * FROM usuario;
+SELECT * FROM conta;
+SELECT * FROM categoria;
+SELECT * FROM transacao;
