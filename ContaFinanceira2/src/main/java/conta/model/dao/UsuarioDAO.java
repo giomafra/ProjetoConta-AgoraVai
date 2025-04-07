@@ -99,4 +99,54 @@ public class UsuarioDAO {
         }
         return usuarios;
     }
+
+    public boolean excluirUsuario(String nomeUsuarioParaExcluir, String adminNome, String adminSenha) {
+        if (!autenticarAdmin(adminNome, adminSenha)) {
+            System.out.println("Apenas o usuário admin pode excluir outros usuários.");
+            return false;
+        }
+
+        String buscarUsuarioId = "SELECT id FROM usuario WHERE nome = ?";
+        String excluirTransacoes = "DELETE FROM transacao WHERE usuario_id = ?";
+        String excluirCategorias = "DELETE FROM categoria WHERE usuario_id = ?";
+        String excluirUsuario = "DELETE FROM usuario WHERE id = ?";
+
+        try (Connection conn = ConexaoBD.getInstance().getConnection();
+             PreparedStatement stmtBuscar = conn.prepareStatement(buscarUsuarioId)) {
+
+            stmtBuscar.setString(1, nomeUsuarioParaExcluir);
+            ResultSet rs = stmtBuscar.executeQuery();
+
+            if (rs.next()) {
+                int usuarioId = rs.getInt("id");
+
+                try (PreparedStatement stmtTransacoes = conn.prepareStatement(excluirTransacoes);
+                     PreparedStatement stmtCategorias = conn.prepareStatement(excluirCategorias);
+                     PreparedStatement stmtUsuario = conn.prepareStatement(excluirUsuario)) {
+
+                    stmtTransacoes.setInt(1, usuarioId);
+                    stmtTransacoes.executeUpdate();
+
+                    stmtCategorias.setInt(1, usuarioId);
+                    stmtCategorias.executeUpdate();
+
+                    stmtUsuario.setInt(1, usuarioId);
+                    stmtUsuario.executeUpdate();
+
+                    System.out.println("Usuário e dados relacionados excluídos com sucesso.");
+                    return true;
+                }
+
+            } else {
+                System.out.println("Usuário não encontrado.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 }

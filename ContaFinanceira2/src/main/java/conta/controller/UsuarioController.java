@@ -21,4 +21,11 @@ public class UsuarioController {
             return null;
         }
     }
+
+    public boolean excluirUsuarioComoAdmin(String nomeUsuarioParaExcluir, String adminNome, String adminSenha) {
+        UsuarioDAO dao = new UsuarioDAO();
+        return dao.excluirUsuario(nomeUsuarioParaExcluir, adminNome, adminSenha);
+    }
+
+
 }

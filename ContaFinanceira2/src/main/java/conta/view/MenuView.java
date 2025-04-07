@@ -47,7 +47,7 @@ public class MenuView {
                     listar();
                     break;
                 case 3:
-//                    excluir();
+                    excluir();
                     break;
                 case 4:
 //                    atualizar();
@@ -282,6 +282,52 @@ public class MenuView {
                     t.getContaId(), t.getCategoriaId());
         }
     }
+
+    private void excluir() {
+        System.out.println("\nEscolha o que deseja cadastrar:");
+        System.out.println("1. Usuário");
+        System.out.println("2. Conta");
+        System.out.println("3. Categoria");
+        System.out.println("4. Transação");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (escolha) {
+            case 1:
+                excluirUsuario();
+                break;
+            case 2:
+//                excluirConta();
+                break;
+            case 3:
+//                excluirCategoria();
+                break;
+            case 4:
+//                excluirTransacao();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+
+    private void excluirUsuario() {
+        System.out.print("Digite o nome do usuário a ser excluído: ");
+        String nomeParaExcluir = scanner.nextLine();
+
+        System.out.print("Digite o nome do usuário para confirmar: ");
+        String adminNome = scanner.nextLine();
+
+        System.out.print("Digite a senha: ");
+        String adminSenha = scanner.nextLine();
+
+        boolean sucesso = usuarioController.excluirUsuarioComoAdmin(nomeParaExcluir, adminNome, adminSenha);
+        if (sucesso) {
+            System.out.println("Usuário excluído com sucesso.");
+        } else {
+            System.out.println("Não foi possível excluir o usuário.");
+        }
+    }
+
 
 
 
