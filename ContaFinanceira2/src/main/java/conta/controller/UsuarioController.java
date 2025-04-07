@@ -8,6 +8,6 @@ public class UsuarioController {
 
     public void cadastrar(String nome, String email, String senha) {
         UsuarioModel usuario = new UsuarioModel(nome, email, senha);
-        usuarioDAO.cadastrarUsuario(usuario);
+        usuarioDAO.cadastrar(usuario);
     }
 }

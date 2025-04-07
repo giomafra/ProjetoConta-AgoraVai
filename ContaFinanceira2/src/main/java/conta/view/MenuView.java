@@ -1,5 +1,7 @@
 package conta.view;
 
+import conta.controller.CategoriaController;
+import conta.controller.ContaController;
 import conta.controller.UsuarioController;
 
 import java.util.Scanner;
@@ -7,6 +9,10 @@ import java.util.Scanner;
 public class MenuView {
     private Scanner scanner = new Scanner(System.in);
     private UsuarioController usuarioController = new UsuarioController();
+    private ContaController contaController = new ContaController();
+    private CategoriaController categoriaController = new CategoriaController();
+
+
 
 
     public void mostrarMenu() {
@@ -59,10 +65,10 @@ public class MenuView {
                 cadastrarUsuario();
                 break;
             case 2:
-//                cadastrarConta();
+                cadastrarConta();
                 break;
             case 3:
-//                cadastrarCategoria();
+                cadastrarCategoria();
                 break;
             case 4:
 //                cadastrarTransacao();
@@ -86,6 +92,47 @@ public class MenuView {
 
         usuarioController.cadastrar(nome, email, senha);
     }
+
+    private void cadastrarConta() {
+        System.out.println("\nCadastro de Conta");
+
+        System.out.print("Tipo da conta (corrente/poupanca): ");
+        String tipoConta = scanner.nextLine();
+
+        System.out.print("Nome do banco: ");
+        String nomeDoBanco = scanner.nextLine();
+
+        System.out.print("Número da conta: ");
+        int numeroDaConta = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Saldo inicial: ");
+        double saldoInicial = Double.parseDouble(scanner.nextLine());
+
+        System.out.print("Digite o nome do usuário para vincular a conta: ");
+        String nomeUsuario = scanner.nextLine();
+
+        System.out.print("Digite a senha do usuário: ");
+        String senha = scanner.nextLine();
+
+        contaController.cadastrarConta(tipoConta, nomeDoBanco, numeroDaConta, saldoInicial, nomeUsuario, senha);
+    }
+
+    private void cadastrarCategoria() {
+        System.out.println("\nCadastro de Categoria");
+
+        System.out.print("Tipo da Categoria: ");
+        String tipoCategoria = scanner.nextLine();
+
+        System.out.print("Nome do Usuário: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Senha do Usuário: ");
+        String senha = scanner.nextLine();
+
+        categoriaController.cadastrarCategoria(tipoCategoria, nome, senha);
+    }
+
+
 }
 
 

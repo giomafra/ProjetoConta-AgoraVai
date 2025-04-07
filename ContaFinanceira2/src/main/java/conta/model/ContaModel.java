@@ -1,6 +1,6 @@
 package conta.model;
 
-public class ContaModel {
+public class ContaModel implements Rendimento {
     private String tipoConta;
     private String nomeDoBanco;
     private Integer numeroDaConta;
@@ -17,32 +17,16 @@ public class ContaModel {
         return tipoConta;
     }
 
-    public void setTipoConta(String tipoConta) {
-        this.tipoConta = tipoConta;
-    }
-
     public String getNomeDoBanco() {
         return nomeDoBanco;
-    }
-
-    public void setNomeDoBanco(String nomeDoBanco) {
-        this.nomeDoBanco = nomeDoBanco;
     }
 
     public Integer getNumeroDaConta() {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(Integer numeroDaConta) {
-        this.numeroDaConta = numeroDaConta;
-    }
-
     public Double getSaldoInicial() {
         return saldoInicial;
-    }
-
-    public void setSaldoInicial(Double saldoInicial) {
-        this.saldoInicial = saldoInicial;
     }
 
     @Override
@@ -53,5 +37,14 @@ public class ContaModel {
                 ", numeroDaConta=" + numeroDaConta +
                 ", saldoInicial=" + saldoInicial +
                 '}';
+    }
+
+    @Override
+    public double calcularRendimento() {
+        if (tipoConta.equalsIgnoreCase("poupança")) {
+            double taxa = 0.005; // 0.5% ao mês
+            return saldoInicial * taxa;
+        }
+        return 0.0;
     }
 }
