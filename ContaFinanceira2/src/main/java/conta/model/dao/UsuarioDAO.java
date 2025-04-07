@@ -2,10 +2,9 @@ package conta.model.dao;
 
 import conta.model.UsuarioModel;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAO {
 
@@ -66,5 +65,38 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public boolean autenticarAdmin(String nome, String senha) {
+        String sql = "SELECT * FROM usuario WHERE nome = ? AND senha = ?";
+        try (Connection conn = ConexaoBD.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nome);
+            stmt.setString(2, senha);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next() && nome.equalsIgnoreCase("admin");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<UsuarioModel> listarTodos() {
+        List<UsuarioModel> usuarios = new ArrayList<>();
+        String sql = "SELECT * FROM usuario";
+        try (Connection conn = ConexaoBD.getInstance().getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                UsuarioModel usuario = new UsuarioModel(
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("senha")
+                );
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
     }
 }

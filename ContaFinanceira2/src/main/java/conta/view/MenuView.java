@@ -4,7 +4,9 @@ import conta.controller.CategoriaController;
 import conta.controller.ContaController;
 import conta.controller.TransacaoController;
 import conta.controller.UsuarioController;
+import conta.model.UsuarioModel;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuView {
@@ -35,7 +37,7 @@ public class MenuView {
                     cadastrar();
                     break;
                 case 2:
-//                    listar();
+                    listar();
                     break;
                 case 3:
 //                    excluir();
@@ -163,6 +165,55 @@ public class MenuView {
                 senha
         );
     }
+
+    private void listar() {
+        System.out.println("\nEscolha o que deseja listar:");
+        System.out.println("1. Usuário");
+        System.out.println("2. Conta");
+        System.out.println("3. Categoria");
+        System.out.println("4. Transação");
+        int escolha = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (escolha) {
+            case 1:
+                listarUsuarios();
+                break;
+            case 2:
+//                listarContas();
+                break;
+            case 3:
+//                listarCategorias();
+                break;
+            case 4:
+//                listarTransacoes();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+        }
+    }
+
+    private void listarUsuarios() {
+        System.out.print("Nome de usuário: ");
+        String nome = scanner.nextLine();
+        System.out.print("Senha: ");
+        String senha = scanner.nextLine();
+
+        UsuarioController usuarioController = new UsuarioController();
+        List<UsuarioModel> usuarios = usuarioController.listarUsuariosSeAdmin(nome, senha);
+
+        if (usuarios == null) {
+            System.out.println("Acesso negado. Apenas o administrador pode visualizar a lista de usuários.");
+        } else {
+            System.out.println("\n--- Lista de Usuários ---");
+            for (UsuarioModel u : usuarios) {
+                System.out.println("Nome: " + u.getNome());
+                System.out.println("Email: " + u.getEmail());
+                System.out.println("-------------");
+            }
+        }
+    }
+
 
 }
 
