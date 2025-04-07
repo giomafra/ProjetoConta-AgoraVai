@@ -6,6 +6,8 @@ import conta.model.UsuarioModel;
 import conta.model.dao.ContaDAO;
 import conta.model.dao.UsuarioDAO;
 
+import java.util.List;
+
 public class ContaController {
     private ContaDAO contaDAO = new ContaDAO();
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -35,5 +37,8 @@ public class ContaController {
         } else {
             System.out.println("Usuário não encontrado. Nome ou senha inválidos.");
         }
+    }
+    public List<ContaModel> listarContasPorUsuario(String nome, String senha) {
+        return contaDAO.listarContasPorUsuario(nome, senha);
     }
 }

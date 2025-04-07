@@ -9,6 +9,7 @@ import conta.model.dao.ContaDAO;
 import conta.model.dao.CategoriaDAO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TransacaoController {
 
@@ -71,4 +72,9 @@ public class TransacaoController {
             System.out.println("Erro ao cadastrar transação.");
         }
     }
+
+    public List<TransacaoModel> listarTransacoesPorUsuario(String nome, String senha) {
+        return transacaoDAO.listarTransacoesPorUsuario(nome, senha);
+    }
+
 }

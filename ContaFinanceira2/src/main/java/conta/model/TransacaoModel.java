@@ -3,6 +3,7 @@ package conta.model;
 import java.time.LocalDateTime;
 
 public class TransacaoModel {
+    private int id;
     private double valor;
     private String tipoTransacao; // "receita" ou "despesa"
     private LocalDateTime dataHoraTransacao;
@@ -65,6 +66,14 @@ public class TransacaoModel {
 
     public void setCategoriaId(int categoriaId) {
         this.categoriaId = categoriaId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

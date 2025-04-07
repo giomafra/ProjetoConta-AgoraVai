@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class ContaDAO {
 
     public int cadastrar(ContaModel conta) {
@@ -77,6 +80,40 @@ public class ContaDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<ContaModel> listarContasPorUsuario(String nome, String senha) {
+        List<ContaModel> contas = new ArrayList<>();
+
+        String sql = """
+                SELECT c.id, c.tipoConta, c.nomeDoBanco, c.numeroConta, c.saldoInicial
+                FROM conta c
+                JOIN usuario u ON u.conta_id = c.id
+                WHERE u.nome = ? AND u.senha = ?
+                """;
+
+        try (Connection conn = ConexaoBD.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nome);
+            stmt.setString(2, senha);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ContaModel conta = new ContaModel(
+                        rs.getString("tipoConta"),
+                        rs.getString("nomeDoBanco"),
+                        rs.getInt("numeroConta"),
+                        rs.getDouble("saldoInicial")
+                );
+                contas.add(conta);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return contas;
     }
 
 

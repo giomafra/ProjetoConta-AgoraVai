@@ -5,6 +5,8 @@ import conta.model.UsuarioModel;
 import conta.model.dao.CategoriaDAO;
 import conta.model.dao.UsuarioDAO;
 
+import java.util.List;
+
 public class CategoriaController {
 
     private CategoriaDAO categoriaDAO = new CategoriaDAO();
@@ -20,5 +22,9 @@ public class CategoriaController {
         } else {
             System.out.println("Usuário não encontrado. Nome ou senha inválidos.");
         }
+    }
+
+    public List<CategoriaModel> listarCategoriasPorUsuario(String nome, String senha) {
+        return categoriaDAO.listarCategoriasPorUsuario(nome, senha);
     }
 }

@@ -4,7 +4,14 @@ import conta.controller.CategoriaController;
 import conta.controller.ContaController;
 import conta.controller.TransacaoController;
 import conta.controller.UsuarioController;
+import conta.model.CategoriaModel;
+import conta.model.ContaModel;
+import conta.model.TransacaoModel;
 import conta.model.UsuarioModel;
+import conta.model.dao.CategoriaDAO;
+import conta.model.dao.ContaDAO;
+import conta.model.dao.TransacaoDAO;
+import conta.model.dao.UsuarioDAO;
 
 import java.util.List;
 import java.util.Scanner;
@@ -180,13 +187,13 @@ public class MenuView {
                 listarUsuarios();
                 break;
             case 2:
-//                listarContas();
+                listarContas();
                 break;
             case 3:
-//                listarCategorias();
+                listarCategorias();
                 break;
             case 4:
-//                listarTransacoes();
+                listarTransacoes();
                 break;
             default:
                 System.out.println("Opção inválida!");
@@ -213,6 +220,71 @@ public class MenuView {
             }
         }
     }
+
+    private void listarContas() {
+        System.out.print("Nome do usuário: ");
+        String nome = scanner.nextLine();
+        System.out.print("Senha: ");
+        String senha = scanner.nextLine();
+
+        ContaController contaController = new ContaController();
+        List<ContaModel> contas = contaController.listarContasPorUsuario(nome, senha);
+
+        if (contas.isEmpty()) {
+            System.out.println("Nenhuma conta encontrada ou credenciais inválidas.");
+        } else {
+            System.out.println("\n--- Contas do usuário ---");
+            for (ContaModel conta : contas) {
+                System.out.println("Tipo: " + conta.getTipoConta());
+                System.out.println("Banco: " + conta.getBanco());
+                System.out.println("Número da Conta: " + conta.getNumeroConta());
+                System.out.println("Saldo: " + conta.getSaldo());
+                System.out.println("-------------");
+            }
+        }
+    }
+    private void listarCategorias() {
+        System.out.println("\n=== Listar Categorias ===");
+        System.out.print("Nome do Usuário: ");
+        String nome = scanner.nextLine();
+        System.out.print("Senha: ");
+        String senha = scanner.nextLine();
+
+        List<CategoriaModel> categorias = categoriaController.listarCategoriasPorUsuario(nome, senha);
+
+        if (categorias.isEmpty()) {
+            System.out.println("Nenhuma categoria encontrada ou credenciais inválidas.");
+        } else {
+            System.out.println("\nCategorias do usuário " + nome + ":");
+            for (CategoriaModel categoria : categorias) {
+                System.out.println("ID: " + categoria.getId() + " | Tipo: " + categoria.getTipoCategoria());
+            }
+        }
+    }
+
+    private void listarTransacoes() {
+        System.out.print("Nome do Usuário: ");
+        String nome = scanner.nextLine();
+        System.out.print("Senha do Usuário: ");
+        String senha = scanner.nextLine();
+
+        List<TransacaoModel> transacoes = transacaoController.listarTransacoesPorUsuario(nome, senha);
+
+        if (transacoes.isEmpty()) {
+            System.out.println("Nenhuma transação encontrada ou credenciais inválidas.");
+            return;
+        }
+
+        System.out.println("\n=== Transações do Usuário ===");
+        for (TransacaoModel t : transacoes) {
+            System.out.printf("ID: %d | Valor: %.2f | Tipo: %s | Data: %s | ContaID: %d | CategoriaID: %d\n",
+                    t.getId(), t.getValor(), t.getTipoTransacao(), t.getDataHoraTransacao(),
+                    t.getContaId(), t.getCategoriaId());
+        }
+    }
+
+
+
 
 
 }
